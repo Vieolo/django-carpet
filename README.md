@@ -1,4 +1,4 @@
-# Universal Django 0.1.0
+# Django Carpet 0.1.1
 
 This package contains the base function and classes for a Django project
 
@@ -8,7 +8,7 @@ Note: This package requires python 3.11 and higher
 
 ## Installation
 ```text
-pip install universal-django
+pip install django-carpet
 ```
 
 ## Import
