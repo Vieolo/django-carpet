@@ -1,4 +1,4 @@
-# Django Carpet 0.1.1
+# Django Carpet 0.1.2
 
 This package contains the base function and classes for a Django project
 
