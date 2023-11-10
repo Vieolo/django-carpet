@@ -2,7 +2,7 @@
 from django.test import TestCase
 
 # Foundation
-from django_foundation.xml_element import XMLElement
+from universal_django.xml_element import XMLElement
 
 class FoundationXMLElementTest(TestCase):
 

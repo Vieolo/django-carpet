@@ -4,14 +4,14 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="django_foundation",  # Replace with your own username
+    name="universal_django",  # Replace with your own username
     version="0.1.0",
     author="Vieolo OÜ",
     author_email="info@vieolo.com",
     description="Foundational functionalities for Django",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/Vieolo/django-foundation.git",
+    url="https://github.com/Vieolo/universal-django.git",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
