@@ -8,3 +8,4 @@ htmlcov/
 # Other
 *.DS_Store
 .coverage
+*.sqlite3

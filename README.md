@@ -1,4 +1,4 @@
-# Django Foundation 0.0.1
+# Django Foundation 0.1.0
 
 This package contains the universally used functionalities for Django projects
 

@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="django_foundation",  # Replace with your own username
-    version="0.0.1",
+    version="0.1.0",
     author="Vieolo OÜ",
     author_email="info@vieolo.com",
     description="Foundational functionalities for Django",
