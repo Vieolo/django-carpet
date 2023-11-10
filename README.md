@@ -1,6 +1,6 @@
-# Django Foundation 0.1.0
+# Django Carpet 0.1.1
 
-This package contains the universally used functionalities for Django projects
+This package contains the base function and classes for a Django project
 
 ```text
 Note: This package requires python 3.11 and higher
@@ -8,7 +8,7 @@ Note: This package requires python 3.11 and higher
 
 ## Installation
 ```text
-pip install git+ssh://git@GitHub.com/vieolo/django-foundation.git
+pip install django-carpet
 ```
 
 ## Import
