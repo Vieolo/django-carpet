@@ -21,7 +21,7 @@ def paginate(entries: BaseManager[Any], page_number: int, limit: int, sort: str 
         page = paginator.page(paginator.num_pages)
 
     return {
-        "data": serializer(*args, **kwargs),
+        "data": serializer(paginator.object_list, *args, **kwargs),
         "limit": limit,
         "page": page_number,
         "startIndex": page.start_index(),
