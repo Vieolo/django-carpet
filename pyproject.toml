@@ -5,3 +5,17 @@ ignore = [
 ]
 
 [tool.pyright]
+ignore = [
+    "**/node_modules",
+    "**/__pycache__",
+    "**/migrations",
+    ".git",
+    "./venv",
+]
+exclude = [
+    "**/node_modules",
+    "**/__pycache__",
+    "**/migrations",
+    ".git",
+    "./venv",
+]
