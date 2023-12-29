@@ -10,11 +10,11 @@ from .exceptions import InputError
 
 
 @overload
-def string_validation(text: Optional[str], max_length: int, obj: str, empty: bool) -> Optional[str]:
+def string_validation(text: Optional[str], max_length: int, obj: str, empty: bool) -> Optional[str]: # pragma: no coverage
     ...
 
 @overload
-def string_validation(text: Optional[str], max_length: int, obj: str) -> str:
+def string_validation(text: Optional[str], max_length: int, obj: str) -> str: # pragma: no coverage
     ...
 
 def string_validation(text: Optional[str], max_length: int, obj: str, empty: bool | None=False) :
@@ -27,16 +27,16 @@ def string_validation(text: Optional[str], max_length: int, obj: str, empty: boo
             raise InputError(obj=obj, message=' cannot be more than ' + str(max_length) + ' characters!')
         else:
             return text
-    except TypeError:
+    except TypeError: # pragma: no coverage
         raise InputError(obj=obj, message=' is either missing or not a string')  # noqa: B904
 
 
 @overload
-def choice_validation(text: Optional[str], choices: Union[Tuple, list], obj: str, null: bool) -> Optional[str]:
+def choice_validation(text: Optional[str], choices: Union[Tuple, list], obj: str, null: bool) -> Optional[str]: # pragma: no coverage
     ...
 
 @overload
-def choice_validation(text: Optional[str], choices: Union[Tuple, list], obj: str) -> str:
+def choice_validation(text: Optional[str], choices: Union[Tuple, list], obj: str) -> str: # pragma: no coverage
     ...
 
 def choice_validation(text: Optional[str], choices: Union[Tuple, list], obj: str, null: bool | None = False):
@@ -45,7 +45,7 @@ def choice_validation(text: Optional[str], choices: Union[Tuple, list], obj: str
             return None
         elif null is False and (text is None or len(text) == 0):
             raise InputError(obj=obj, message=' has to be selected!')
-        elif ((type(choices) is list or type(choices) is tuple) and text in choices) or text in dict(choices):
+        elif ((isinstance(choices, list) or type(choices) is tuple) and text in choices) or text in dict(choices):
             return text
         else:
             raise InputError(obj=obj, message=' cannot have this value!')
@@ -83,7 +83,7 @@ def integer_validation(number: Optional[str], low: int, high: int, obj: str, emp
             raise InputError(obj=obj, message=' has to be an integer!')  # noqa: B904
 
 
-def boolean_validation(boo: Optional[str], obj: str) -> bool:
+def boolean_validation(boo: Optional[Union[str, bool]], obj: str) -> bool:
     if boo is True or boo is False:
         return boo
     elif boo == 'true':
