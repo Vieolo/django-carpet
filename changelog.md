@@ -1,5 +1,8 @@
 # Change Log
 
+## v0.1.9 (2023-12-29)
+- Added date time validator
+
 ## v0.1.8 (2023-12-20)
 - Fixed the limit of `paginator`
 
