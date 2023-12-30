@@ -1,5 +1,6 @@
 # Python
 import json
+from typing import Union
 
 # Django
 from django.http.response import HttpResponse
@@ -34,7 +35,17 @@ class NotAllowedResponse(HttpResponse):
 
 class VieoloResponse:
 
-    def __init__(self, result: str, obj: str | None = None, type_of_object: str | None = None, operation: str | None = None, reason: str | None = None, message: str | None = None, status_code: int | None = None):
+    def __init__(
+        self, 
+        result: str, 
+        object_key: str,
+        obj: str | None = None, 
+        type_of_object: str | None = None, 
+        operation: str | None = None, 
+        reason: str | None = None, 
+        message: str | None = None, 
+        status_code: int | None = None,
+    ):
         self.result = result
         self.obj = obj
         self.type_of_object = type_of_object
@@ -43,6 +54,7 @@ class VieoloResponse:
         self.message = message
         self.response_object = {}
         self.status_code = status_code
+        self.object_key = object_key
 
     def __str__(self) -> str:
         return str(self.response_object)
@@ -61,6 +73,46 @@ class VieoloResponse:
 
     def is_not_allowed(self) -> bool:
         return self.result == ResponseChoices.not_allowed
+    
+    def get_id(self) -> int:
+        return self.response_object[self.object_key]["id"]
+    
+    def data(self):
+        return self.response_object[self.object_key]
+    
+    def data_len(self) -> int:
+        return len(self.response_object[self.object_key])
+
+    @staticmethod 
+    def parse(raw: Union[str, HttpResponse], object_key = "") -> 'VieoloResponse':
+        if isinstance(raw, HttpResponse):
+            parsed = json.loads(raw.content)
+            status_code = raw.status_code
+        else:
+            parsed = json.loads(raw)
+            status_code = None
+
+        response = VieoloResponse(
+            result=parsed['result'],
+            status_code=status_code,
+            object_key=object_key,
+        )
+
+        for k, v in parsed.items():
+            if k == 'operation':
+                response.operation = v
+            elif k == 'object':
+                response.obj = v
+            elif k == 'type':
+                response.type_of_object = v
+            elif k == 'reason':
+                response.reason = v
+            elif k == 'message':
+                response.message = v
+
+            response.response_object[k] = v
+
+        return response
 
 
 def generate_response(result, obj=None, type_of_object=None, operation=None, reason=None, message=None) -> dict[str, Any]:
