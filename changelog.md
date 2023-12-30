@@ -1,5 +1,8 @@
 # Change Log
 
+## v0.1.10 (2023-12-30)
+- Improved `VieoloResponse`
+
 ## v0.1.9 (2023-12-29)
 - Added date time validator
 

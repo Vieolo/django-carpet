@@ -38,7 +38,7 @@ class VieoloResponse:
     def __init__(
         self, 
         result: str, 
-        object_key: str,
+        object_key: str = "",
         obj: str | None = None, 
         type_of_object: str | None = None, 
         operation: str | None = None, 
