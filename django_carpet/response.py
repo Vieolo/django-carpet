@@ -76,10 +76,12 @@ class VieoloResponse:
     
     def get_id(self) -> int:
         return self.response_object[self.object_key]["id"]
-    
+
+    @property 
     def data(self):
         return self.response_object[self.object_key]
-    
+
+    @property 
     def data_len(self) -> int:
         return len(self.response_object[self.object_key])
 
