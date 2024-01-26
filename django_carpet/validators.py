@@ -86,9 +86,9 @@ def integer_validation(number: Optional[str], low: int, high: int, obj: str, emp
 def boolean_validation(boo: Optional[Union[str, bool]], obj: str) -> bool:
     if boo is True or boo is False:
         return boo
-    elif boo == 'true':
+    elif boo == 'true' or boo == 'True':
         return True
-    elif boo == 'false':
+    elif boo == 'false' or boo == 'False':
         return False
     else:
         raise InputError(obj=obj, message=' has to be either true or false!')
