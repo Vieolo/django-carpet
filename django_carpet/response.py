@@ -1,6 +1,6 @@
 # Python
 import json
-from typing import Union
+from typing import Union, Callable
 
 # Django
 from django.http.response import HttpResponse
@@ -76,6 +76,9 @@ class VieoloResponse:
     
     def get_id(self) -> int:
         return self.response_object[self.object_key]["id"]
+
+    def filter(self, func: Callable[[dict], bool]) -> list[dict]:
+        return list(filter(func, self.data))
 
     @property 
     def data(self):

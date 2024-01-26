@@ -1,6 +1,9 @@
 # Change Log
 
 ## v0.1.12 (2024-01-26)
+- Added filter function to `VieoloResponse`
+
+## v0.1.12 (2024-01-26)
 - Improved `boolean_validation`
 
 ## v0.1.11 (2023-12-30)
