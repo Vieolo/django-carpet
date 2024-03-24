@@ -2,8 +2,7 @@
 from datetime import datetime, date
 import decimal
 import json
-from typing import overload
-from typing import Optional, Union, Callable, Tuple
+from typing import Optional, Union, Callable, Tuple, overload
 
 # This App
 from .exceptions import InputError
@@ -56,18 +55,18 @@ def choice_validation(text: Optional[str], choices: Union[Tuple, list], obj: str
 
 
 @overload
-def integer_validation(number: Optional[str], low: int, high: int, obj: str, empty: bool) -> Optional[int]:
+def integer_validation(number: Optional[Union[str, int]], low: int, high: int, obj: str, empty: bool) -> Optional[int]:
     ...
 
 @overload
-def integer_validation(number: Optional[str], low: int, high: int, obj: str) -> int:
+def integer_validation(number: Optional[Union[str, int]], low: int, high: int, obj: str) -> int:
     ...
 
-def integer_validation(number: Optional[str], low: int, high: int, obj: str, empty: bool | None = False):
-    if empty and (number is None or (type(number) == str and len(number) == 0)):
+def integer_validation(number: Optional[Union[str, int]], low: int, high: int, obj: str, empty: bool | None = False):
+    if empty and (number is None or (type(number) is str and len(number) == 0)):
         return None
-    elif empty is False and (number is None):
-        raise InputError(obj=obj, message=' has to be an integer!')
+    elif empty is False and (number is None or number == ""):
+        raise InputError(obj=obj, message='has to be an integer!')
     else:
         try:
             n = int(number) # type: ignore
@@ -75,12 +74,12 @@ def integer_validation(number: Optional[str], low: int, high: int, obj: str, emp
                 return n
             else:
                 if n < low:
-                    message = ' has to be equal or bigger than ' + str(low)
+                    message = 'has to be equal or bigger than ' + str(low)
                 else:
-                    message = ' has to be equal or smaller than ' + str(high)
+                    message = 'has to be equal or smaller than ' + str(high)
                 raise InputError(obj=obj, message=message)
         except ValueError:
-            raise InputError(obj=obj, message=' has to be an integer!')  # noqa: B904
+            raise InputError(obj=obj, message='has to be an integer!')  # noqa: B904
 
 
 def boolean_validation(boo: Optional[Union[str, bool]], obj: str) -> bool:

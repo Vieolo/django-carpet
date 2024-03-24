@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 # Django
 from django.test import TestCase
 
-from django_carpet.validators import date_time_validation, string_validation, choice_validation, boolean_validation
+from django_carpet.validators import date_time_validation, string_validation, choice_validation, boolean_validation, integer_validation
 from django_carpet.exceptions import InputError
 
 
@@ -160,3 +160,73 @@ class ValidaotrsTest(TestCase):
         self.assertTrue(boolean_validation('true', 'bool'))
         self.assertFalse(boolean_validation(False, 'bool'))
         self.assertFalse(boolean_validation('false', 'bool'))
+
+    def test_integer_validators(self):
+
+        # Testing the integer validation when the value is None and empty is false
+        try:
+            integer_validation(None, 0, 100, 'number', empty=False)
+            self.fail("exception was not raised")
+        except InputError as e:
+            self.assertEqual(e.obj, 'number')
+        except Exception as e:
+            self.fail(e)
+
+        try:
+            integer_validation('', 0, 100, 'number', empty=False)
+            self.fail("exception was not raised")
+        except InputError as e:
+            self.assertEqual(e.obj, 'number')
+        except Exception as e:
+            self.fail(e)
+            
+        # Testing the integer validation when the value is None and empty is True
+        self.assertIsNone(integer_validation(None, 0, 100, 'number', empty=True))
+        self.assertIsNone(integer_validation("", 0, 100, 'number', empty=True))
+        
+        # Passing an invalid text as number
+        try:
+            integer_validation('ss', 0, 100, 'number', empty=False)
+            self.fail("exception was not raised")
+        except InputError as e:
+            self.assertEqual(e.obj, 'number')
+        except Exception as e:
+            self.fail(e)
+
+        # Passing a number smaller than the minimum
+        try:
+            integer_validation('0', 1, 100, 'number', empty=False)
+            self.fail("exception was not raised")
+        except InputError as e:
+            self.assertEqual(e.obj, 'number')
+        except Exception as e:
+            self.fail(e)
+
+        try:
+            integer_validation(0, 1, 100, 'number', empty=False)
+            self.fail("exception was not raised")
+        except InputError as e:
+            self.assertEqual(e.obj, 'number')
+        except Exception as e:
+            self.fail(e)
+
+        # Passing a number bigger than the minimum
+        try:
+            integer_validation('200', 0, 100, 'number', empty=False)
+            self.fail("exception was not raised")
+        except InputError as e:
+            self.assertEqual(e.obj, 'number')
+        except Exception as e:
+            self.fail(e)
+
+        try:
+            integer_validation(200, 0, 100, 'number', empty=False)
+            self.fail("exception was not raised")
+        except InputError as e:
+            self.assertEqual(e.obj, 'number')
+        except Exception as e:
+            self.fail(e)
+
+        # Passing valid values 
+        self.assertEqual(integer_validation(200, 0, 300, 'number', empty=False), 200)
+        self.assertEqual(integer_validation('200', 0, 300, 'number', empty=False), 200)
