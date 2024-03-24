@@ -1,6 +1,9 @@
 # Change Log
 
-## v0.1.12 (2024-01-26)
+## v0.1.14 (2024-03-24)
+- Improved the `number_validation` function
+
+## v0.1.13 (2024-01-26)
 - Added filter function to `VieoloResponse`
 
 ## v0.1.12 (2024-01-26)
