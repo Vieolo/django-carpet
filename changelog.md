@@ -1,5 +1,12 @@
 # Change Log
 
+## v0.2.0 (2024-06-11)
+- Added `is_production` and `is_testing` to `end`
+- Added the `data` argument to the `generate_response` which mixes the data dict with the response dict without needing to manually set the key and values of response after generation
+
+#### Breaking Changes
+- All the arguments of `generate_response` after `result` must be named. e.g. `operation="object creation"`
+
 ## v0.1.14 (2024-03-24)
 - Improved the `number_validation` function
 
