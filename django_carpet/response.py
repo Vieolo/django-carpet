@@ -120,7 +120,27 @@ class VieoloResponse:
         return response
 
 
-def generate_response(result, obj=None, type_of_object=None, operation=None, reason=None, message=None) -> dict[str, Any]:
+def generate_response(
+    result: str, 
+    *,
+    obj: Optional[str]=None, 
+    type_of_object: Optional[str]=None, 
+    operation: Optional[str]=None, 
+    reason: Optional[str]=None, 
+    message: Optional[str]=None,
+    data: Optional[dict]=None,
+) -> dict[str, Any]:
+    """Generates a dict following the Vieolo's response convention
+
+    Args:
+        result: The result of the response. Use `ResponseChoices`
+        obj: The `object` key of response. Defaults to None.
+        type_of_object: the `type` key of response. Defaults to None.
+        operation: the `operation` key of response. Defaults to None.
+        reason: the `reason` key of response. Defaults to None.
+        message: the `message` key of response. Defaults to None.
+        data: The data to be merged with the response containing the response data. Defaults to None.
+    """
     response = {
         "result": result
     }
@@ -134,5 +154,8 @@ def generate_response(result, obj=None, type_of_object=None, operation=None, rea
         response["reason"] = reason
     if message is not None:
         response["message"] = message
+    
+    if data is not None:
+        response = response | data
 
     return response
