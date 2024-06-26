@@ -21,7 +21,7 @@ class NotLoggedResponse(HttpResponse):
 class APIResponse(HttpResponse):
 
     def __init__(self, response, request, status=200):
-        if request.token is not None and request.token != '':
+        if hasattr(request, 'token') and request.token is not None and request.token != '':
             super().__init__(json.dumps(response, default=str), content_type='application/json', status=status)
         else:
             super().__init__(json.dumps(response, default=str), status=status)

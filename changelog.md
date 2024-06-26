@@ -1,5 +1,8 @@
 # Change Log
 
+## v0.2.1 (2024-06-26)
+- Fixed the error of `APIResponse` when the request object has no token
+
 ## v0.2.0 (2024-06-11)
 - Added `is_production` and `is_testing` to `end`
 - Added the `data` argument to the `generate_response` which mixes the data dict with the response dict without needing to manually set the key and values of response after generation
