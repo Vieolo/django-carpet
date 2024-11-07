@@ -1,5 +1,8 @@
 # Change Log
 
+## v0.4.1 (2024-11-07)
+- Added support for pagination data in both generation and parsing of `VieoloResponse`
+
 ## v0.4.0 (2024-11-07)
 - Added `PaginateType` for paingation data
 

@@ -10,6 +10,7 @@ from typing import Optional, Any
 
 # Project
 from .choices import ResponseChoices
+from .paginate import PaginateType
 
 
 class NotLoggedResponse(HttpResponse):
@@ -45,7 +46,8 @@ class VieoloResponse:
         reason: str | None = None, 
         message: str | None = None, 
         status_code: int | None = None,
-        data: Any | None = None
+        data: Any | None = None,
+        pagination: PaginateType | None = None,
     ):
         self.result = result
         self.obj = obj
@@ -57,6 +59,7 @@ class VieoloResponse:
         self.status_code = status_code
         self.object_key = object_key
         self._data = data
+        self.pagination = pagination
 
     def __str__(self) -> str:
         return str(self.response_object)
@@ -107,6 +110,7 @@ class VieoloResponse:
             status_code=status_code,
             object_key=object_key,
             data=parsed.get("data", None),
+            pagination=parsed.get("pagination", None)
         )
 
         for k, v in parsed.items():
@@ -135,6 +139,7 @@ class VieoloResponse:
         reason: Optional[str]=None, 
         message: Optional[str]=None,
         data: Optional[dict]=None,
+        pagination: Optional[PaginateType]=None,
     ) -> dict[str, Any]:
         """Generates a dict following the Vieolo's response convention
 
@@ -160,6 +165,8 @@ class VieoloResponse:
             response["reason"] = reason
         if message is not None:
             response["message"] = message
+        if pagination is not None:
+            response["pagination"] = pagination
         if data is not None:
             response["data"] = data
 
