@@ -1,5 +1,12 @@
 # Change Log
 
+## v0.3.0 (2024-11-07)
+- Improved the parsing of the `VieoloResponse`
+
+#### Breaking Changes
+- `generate_response` is now `generate` which is a static function of the `VieoloResponse`
+- `generate` function now follows the Vieolo response v1 and includes the serialized objects in the `data` key
+
 ## v0.2.1 (2024-06-26)
 - Fixed the error of `APIResponse` when the request object has no token
 

@@ -45,6 +45,7 @@ class VieoloResponse:
         reason: str | None = None, 
         message: str | None = None, 
         status_code: int | None = None,
+        data: Any | None = None
     ):
         self.result = result
         self.obj = obj
@@ -55,9 +56,23 @@ class VieoloResponse:
         self.response_object = {}
         self.status_code = status_code
         self.object_key = object_key
+        self._data = data
 
     def __str__(self) -> str:
         return str(self.response_object)
+
+    @property 
+    def data(self) -> Any:
+        if self.object_key is not None and self.object_key in self.response_object:
+            return self.response_object[self.object_key]
+        return (self._data or {})[self.object_key]
+
+    @property 
+    def data_len(self) -> int:
+        return len(self.data)
+
+    def get_id(self) -> int:
+        return self.data["id"]
 
     def is_successful(self) -> bool:
         return self.result == ResponseChoices.success
@@ -73,20 +88,10 @@ class VieoloResponse:
 
     def is_not_allowed(self) -> bool:
         return self.result == ResponseChoices.not_allowed
-    
-    def get_id(self) -> int:
-        return self.response_object[self.object_key]["id"]
 
     def filter(self, func: Callable[[dict], bool]) -> list[dict]:
         return list(filter(func, self.data))
 
-    @property 
-    def data(self):
-        return self.response_object[self.object_key]
-
-    @property 
-    def data_len(self) -> int:
-        return len(self.response_object[self.object_key])
 
     @staticmethod 
     def parse(raw: Union[str, HttpResponse], object_key = "") -> 'VieoloResponse':
@@ -101,6 +106,7 @@ class VieoloResponse:
             result=parsed['result'],
             status_code=status_code,
             object_key=object_key,
+            data=parsed.get("data", None),
         )
 
         for k, v in parsed.items():
@@ -119,43 +125,42 @@ class VieoloResponse:
 
         return response
 
+    @staticmethod
+    def generate(
+        result: str, 
+        *,
+        obj: Optional[str]=None, 
+        type_of_object: Optional[str]=None, 
+        operation: Optional[str]=None, 
+        reason: Optional[str]=None, 
+        message: Optional[str]=None,
+        data: Optional[dict]=None,
+    ) -> dict[str, Any]:
+        """Generates a dict following the Vieolo's response convention
 
-def generate_response(
-    result: str, 
-    *,
-    obj: Optional[str]=None, 
-    type_of_object: Optional[str]=None, 
-    operation: Optional[str]=None, 
-    reason: Optional[str]=None, 
-    message: Optional[str]=None,
-    data: Optional[dict]=None,
-) -> dict[str, Any]:
-    """Generates a dict following the Vieolo's response convention
+        Args:
+            result: The result of the response. Use `ResponseChoices`
+            obj: The `object` key of response. Defaults to None.
+            type_of_object: the `type` key of response. Defaults to None.
+            operation: the `operation` key of response. Defaults to None.
+            reason: the `reason` key of response. Defaults to None.
+            message: the `message` key of response. Defaults to None.
+            data: The data containing the response data. Defaults to None.
+        """
+        response: dict[str, Any] = {
+            "result": result
+        }
+        if obj is not None:
+            response["object"] = obj
+        if type_of_object is not None:
+            response["type"] = type_of_object
+        if operation is not None:
+            response["operation"] = operation
+        if reason is not None:
+            response["reason"] = reason
+        if message is not None:
+            response["message"] = message
+        if data is not None:
+            response["data"] = data
 
-    Args:
-        result: The result of the response. Use `ResponseChoices`
-        obj: The `object` key of response. Defaults to None.
-        type_of_object: the `type` key of response. Defaults to None.
-        operation: the `operation` key of response. Defaults to None.
-        reason: the `reason` key of response. Defaults to None.
-        message: the `message` key of response. Defaults to None.
-        data: The data to be merged with the response containing the response data. Defaults to None.
-    """
-    response = {
-        "result": result
-    }
-    if obj is not None:
-        response["object"] = obj
-    if type_of_object is not None:
-        response["type"] = type_of_object
-    if operation is not None:
-        response["operation"] = operation
-    if reason is not None:
-        response["reason"] = reason
-    if message is not None:
-        response["message"] = message
-    
-    if data is not None:
-        response = response | data
-
-    return response
+        return response
