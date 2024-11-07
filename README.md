@@ -1,4 +1,4 @@
-# Django Carpet 0.3.0
+# Django Carpet 0.4.0
 
 This package contains the base function and classes for a Django project
 
