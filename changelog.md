@@ -1,5 +1,11 @@
 # Change Log
 
+## v0.4.0 (2024-11-07)
+- Added `PaginateType` for paingation data
+
+#### Breaking Changes
+- combined the pagination function as `paginate` which is compliant with Vieolo response v1
+
 ## v0.3.0 (2024-11-07)
 - Improved the parsing of the `VieoloResponse`
 
