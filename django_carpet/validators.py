@@ -190,12 +190,12 @@ def decimal_validation(number, low, high, decimal_count, obj, round_decimal=True
 
 def json_validation(j, obj, empty=False) -> dict:
     try:
-        if len(j) == 0 and empty:
+        if len(j or "") == 0 and empty:
             return j
-        elif len(j) == 0 and not empty:
+        elif len(j or "") == 0 and not empty:
             raise InputError(obj=obj, message=' cannot be empty!')
 
-        return json.loads(j)
+        return json.loads(j or "{}")
 
     except json.decoder.JSONDecodeError:
         raise InputError(obj=obj, message=' is not valid!')  # noqa: B904

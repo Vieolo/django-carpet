@@ -1,5 +1,8 @@
 # Change Log
 
+## v0.4.2 (2025-01-26)
+- Fixed the json validation when the given value is `None`
+
 ## v0.4.1 (2024-11-07)
 - Added support for pagination data in both generation and parsing of `VieoloResponse`
 

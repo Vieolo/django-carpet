@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="django_carpet",  # Replace with your own username
-    version="0.4.1",
+    version="0.4.2",
     author="Vieolo",
     description="Foundational functionalities for Django",
     long_description=long_description,
