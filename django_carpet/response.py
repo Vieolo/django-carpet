@@ -21,11 +21,16 @@ class NotLoggedResponse(HttpResponse):
 
 class APIResponse(HttpResponse):
 
-    def __init__(self, response, request, status=200):
-        if hasattr(request, 'token') and request.token is not None and request.token != '':
-            super().__init__(json.dumps(response, default=str), content_type='application/json', status=status)
-        else:
-            super().__init__(json.dumps(response, default=str), status=status)
+    def __init__(self, response, request, status=200, etag: Optional[str] = None):
+        content_type = None
+        if request.token is not None and request.token != '':
+            content_type = "application/json"
+
+        headers = {}
+        if etag is not None and len(etag) > 0:
+            headers["ETag"] = etag
+
+        super().__init__(json.dumps(response, default=str), content_type=content_type, status=status, headers=headers)
 
 
 class NotAllowedResponse(HttpResponse):

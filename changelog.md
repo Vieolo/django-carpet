@@ -1,5 +1,8 @@
 # Change Log
 
+## v0.4.3 (2025-06-11)
+- Improved the `APIResponse`
+
 ## v0.4.2 (2025-01-26)
 - Fixed the json validation when the given value is `None`
 
