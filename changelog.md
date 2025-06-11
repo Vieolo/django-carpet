@@ -1,5 +1,8 @@
 # Change Log
 
+## v0.4.5 (2025-06-11)
+- Added support for 304 responses
+
 ## v0.4.4 (2025-06-11)
 - Added parsing of headers for VieoloResponse
 

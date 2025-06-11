@@ -5,6 +5,7 @@ class EnvChoices:
     
 class ResponseChoices:
     success = "success"
+    not_modified = "not modified"
     already_exists = "already exists"
     does_not_exist = "does not exist"
     same_object = "same object"
