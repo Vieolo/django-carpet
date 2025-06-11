@@ -30,7 +30,7 @@ class APIResponse(HttpResponse):
         if etag is not None and len(etag) > 0:
             headers["ETag"] = etag
 
-        super().__init__(json.dumps(response, default=str), content_type=content_type, status=status, headers=headers)
+        super().__init__(json.dumps(response, default=str) if status != 304 else "", content_type=content_type, status=status, headers=headers)
 
 
 class NotAllowedResponse(HttpResponse):
@@ -112,7 +112,10 @@ class VieoloResponse:
     def parse(raw: Union[str, HttpResponse], object_key = "") -> 'VieoloResponse':
         h = None
         if isinstance(raw, HttpResponse):
-            parsed = json.loads(raw.content)
+            if raw.status_code == 304:
+                parsed: dict = {"result": ResponseChoices.not_modified}
+            else:
+                parsed = json.loads(raw.content) if len(raw.content) > 0 else {}
             status_code = raw.status_code
             h = raw.headers
         else:
@@ -120,7 +123,7 @@ class VieoloResponse:
             status_code = None
 
         response = VieoloResponse(
-            result=parsed['result'],
+            result=parsed.get('result', ''),
             status_code=status_code,
             object_key=object_key,
             data=parsed.get("data", None),
