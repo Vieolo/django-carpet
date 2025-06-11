@@ -3,7 +3,7 @@ import json
 from typing import Union, Callable
 
 # Django
-from django.http.response import HttpResponse
+from django.http.response import HttpResponse, ResponseHeaders
 
 # Third Party
 from typing import Optional, Any
@@ -53,6 +53,7 @@ class VieoloResponse:
         status_code: int | None = None,
         data: Any | None = None,
         pagination: PaginateType | None = None,
+        headers: ResponseHeaders | None = None,
     ):
         self.result = result
         self.obj = obj
@@ -65,6 +66,7 @@ class VieoloResponse:
         self.object_key = object_key
         self._data = data
         self.pagination = pagination
+        self.headers = headers
 
     def __str__(self) -> str:
         return str(self.response_object)
@@ -73,7 +75,7 @@ class VieoloResponse:
     def data(self) -> Any:
         if self.object_key is not None and self.object_key in self.response_object:
             return self.response_object[self.object_key]
-        return (self._data or {})[self.object_key]
+        return (self._data or {}).get(self.object_key, self._data)
 
     @property 
     def data_len(self) -> int:
@@ -99,13 +101,20 @@ class VieoloResponse:
 
     def filter(self, func: Callable[[dict], bool]) -> list[dict]:
         return list(filter(func, self.data))
+    
+    def get_etag(self) -> Optional[str]:
+        if self.headers is None:
+            return None
+        return self.headers.get("ETag", None)
 
 
     @staticmethod 
     def parse(raw: Union[str, HttpResponse], object_key = "") -> 'VieoloResponse':
+        h = None
         if isinstance(raw, HttpResponse):
             parsed = json.loads(raw.content)
             status_code = raw.status_code
+            h = raw.headers
         else:
             parsed = json.loads(raw)
             status_code = None
@@ -115,7 +124,8 @@ class VieoloResponse:
             status_code=status_code,
             object_key=object_key,
             data=parsed.get("data", None),
-            pagination=parsed.get("pagination", None)
+            pagination=parsed.get("pagination", None),
+            headers=h,
         )
 
         for k, v in parsed.items():
