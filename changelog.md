@@ -1,5 +1,8 @@
 # Change Log
 
+## v0.4.4 (2025-06-11)
+- Added parsing of headers for VieoloResponse
+
 ## v0.4.3 (2025-06-11)
 - Improved the `APIResponse`
 
